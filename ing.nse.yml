@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: wping
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  tls:
+    - hosts:
+      - ngxgroup.com
+      secretName: ngx-nse-com-ng
+  rules:
+  - host: ngxgroup.com
+    http:
+      paths:
+      - backend:
+          serviceName: wordpressnp
+          servicePort: 80
